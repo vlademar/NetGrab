@@ -24,6 +24,7 @@ namespace NetGrab
             public HttpWebResponse response;
             public Stream streamResponse;
             public Stream resultStream;
+            public string path;
             public RequestState()
             {
                 buffer = new byte[BufferSize];
@@ -42,8 +43,11 @@ namespace NetGrab
         private LoadStringCompleteCallback loadStringCompleteCallback;
         private SaveFileCompleteCallback saveFileCompleteCallback;
 
-
         protected void LoadStringAsync(string url, LoadStringCompleteCallback callback)
+        {
+            LoadStringAsync(url, null, callback);
+        }
+        protected void LoadStringAsync(string url, WebProxy proxy, LoadStringCompleteCallback callback)
         {
             loadStringCompleteCallback = callback;
 
@@ -58,22 +62,35 @@ namespace NetGrab
                 request.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU";
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
-                var response = (HttpWebResponse)request.GetResponse();
-
-                var responseStream = response.GetResponseStream();
-                var ms = new MemoryStream();
-
-                length = 0;
+                if (proxy != null)
+                    request.Proxy = proxy;
 
                 var requestState = new RequestState
                 {
-                    request = request,
-                    response = response,
-                    streamResponse = responseStream,
-                    resultStream = ms
+                    request = request
                 };
 
-                responseStream.BeginRead(requestState.buffer, 0, RequestState.BufferSize, LoadStringEnd, requestState);
+                request.BeginGetResponse(LoadStringGetResponse, requestState);
+            }
+            catch (Exception e)
+            {
+                loadStringCompleteCallback.Invoke(string.Empty, string.Empty, e);
+            }
+        }
+        private void LoadStringGetResponse(IAsyncResult ar)
+        {
+
+            try
+            {
+                var requestState = (RequestState)ar.AsyncState;
+
+                requestState.response = (HttpWebResponse)requestState.request.EndGetResponse(ar);
+                requestState.streamResponse = requestState.response.GetResponseStream();
+                requestState.resultStream = new MemoryStream();
+
+                length = 0;
+
+                requestState.streamResponse.BeginRead(requestState.buffer, 0, RequestState.BufferSize, LoadStringEnd, requestState);
             }
             catch (Exception e)
             {
@@ -119,8 +136,11 @@ namespace NetGrab
             loadStringCompleteCallback.Invoke(result, state.response.ResponseUri.ToString(), null);
         }
 
-
         protected void SaveFileAsync(string url, string path, SaveFileCompleteCallback callback)
+        {
+            SaveFileAsync(url, path, null, callback);
+        }
+        protected void SaveFileAsync(string url, string path, WebProxy proxy, SaveFileCompleteCallback callback)
         {
             saveFileCompleteCallback = callback;
 
@@ -135,22 +155,35 @@ namespace NetGrab
                 request.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU";
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
-                var response = (HttpWebResponse)request.GetResponse();
-
-                var responseStream = response.GetResponseStream();
-                var fs = new FileStream(path, FileMode.Create);
-
-                length = 0;
+                if (proxy != null)
+                    request.Proxy = proxy;
 
                 var requestState = new RequestState
                 {
                     request = request,
-                    response = response,
-                    streamResponse = responseStream,
-                    resultStream = fs
+                    path = path
                 };
 
-                responseStream.BeginRead(requestState.buffer, 0, RequestState.BufferSize, FileReadEnd, requestState);
+                request.BeginGetResponse(FileReadGetResponse, requestState);
+
+            }
+            catch (Exception e)
+            {
+                saveFileCompleteCallback.Invoke(-1, e);
+            }
+        }
+        private void FileReadGetResponse(IAsyncResult ar)
+        {
+            try
+            {
+                var requestState = (RequestState)ar.AsyncState;
+
+                requestState.streamResponse = requestState.response.GetResponseStream();
+                requestState.resultStream = new FileStream(requestState.path, FileMode.Create);
+
+                length = 0;
+
+                requestState.streamResponse.BeginRead(requestState.buffer, 0, RequestState.BufferSize, FileReadEnd, requestState);
             }
             catch (Exception e)
             {

@@ -13,6 +13,7 @@ namespace NetGrab
     {
         public int ThreadId { get; set; }
         public string Suffix { get; set; }
+        public WebProxy Proxy { get; set; }
     }
 
     /// <summary>
@@ -30,6 +31,8 @@ namespace NetGrab
         private bool working = false;
         private bool abort = false;
 
+        private WebProxy proxy = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +40,7 @@ namespace NetGrab
             reportFunc = ReportPogressInternal;
             nameGen = new NameGen09();
             var logger = new Logger(".//grab.log");
-
+            
             for (int i = 0; i < threadCount; i++)
             {
                 var loader = new KnowyourmemeComSyncLoader();
@@ -82,7 +85,7 @@ namespace NetGrab
             var name = nameGen.NextName();
 
 
-            ThreadPool.QueueUserWorkItem(LaunchSingleLoader, new Task { Suffix = name, ThreadId = threadId });
+            ThreadPool.QueueUserWorkItem(LaunchSingleLoader, new Task { Suffix = name, ThreadId = threadId, Proxy = proxy });
 
             dispatcher.Invoke(reportFunc, threadId, name);
         }

@@ -14,17 +14,16 @@ namespace NetGrab
         private Regex searchRegex = new Regex("(?<url>http\\://i\\d{1}\\.kym-cdn\\.com/photos/images/original/\\d{3}/\\d{3}/\\d{3}/(?<name>[\\-\\w]+)\\.(?<ext>\\w+))");
         private Task task;
 
+        private const string savePath = @"..\..\..\NetGrabDownloads\";
+
         public override void OnInit()
         {
-            if (!Directory.Exists(".\\downloads\\"))
-                Directory.CreateDirectory(".\\downloads\\");
+            if (!Directory.Exists(savePath))
+                Directory.CreateDirectory(savePath);
         }
 
         public override void DoWork(Task task)
         {
-            string outUrl = string.Empty;
-            string _string = string.Empty;
-
             this.task = task;
 
             LoadStringAsync(staticUrlPart + task.Suffix, TitlePageDownloaded);
@@ -47,7 +46,7 @@ namespace NetGrab
             if (!catalogs.ContainsKey(group))
             {
                 catalogs.Add(group, 0);
-                Directory.CreateDirectory(".\\downloads\\" + group);
+                Directory.CreateDirectory(savePath + group);
             }
 
             catalogs[group]++;
@@ -68,7 +67,7 @@ namespace NetGrab
             var ext = m.Groups["ext"].Value;
 
             name = name.Substring(0, Math.Min(name.Length, 60));
-            var fileName = string.Format(".\\downloads\\{0}\\{1}_{2}.{3}", group, task.Suffix, name, ext);
+            var fileName = string.Format("{0}{1}\\{2}_{3}.{4}", savePath, group, task.Suffix, name, ext);
 
             SaveFileAsync(url, fileName, FileDownloaded);
         }
