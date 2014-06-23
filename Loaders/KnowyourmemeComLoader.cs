@@ -14,12 +14,10 @@ namespace NetGrab
         private Regex searchRegex = new Regex("(?<url>http\\://i\\d{1}\\.kym-cdn\\.com/photos/images/original/\\d{3}/\\d{3}/\\d{3}/(?<name>[\\-\\w]+)\\.(?<ext>\\w+))");
         private Task task;
 
-        private const string savePath = @"..\..\..\NetGrabDownloads\";
 
-        public override void OnInit()
+        public override ILoader New()
         {
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
+            return new KnowyourmemeComSyncLoader();
         }
 
         public override void DoWork(Task task)
@@ -33,8 +31,8 @@ namespace NetGrab
         {
             if (error != null)
             {
-                logger.Add(task.ThreadId.ToString("D2") + " -> " + task.Suffix + " -> FILE1 -> EXCEPTION : " + error.Message);
-                taskHost.RaiseNextJob(task.ThreadId);
+                //logger.Add(task.Loader.ToString("D2") + " -> " + task.Suffix + " -> FILE1 -> EXCEPTION : " + error.Message);
+                taskHost.RaiseNextJob(task.Loader);
                 return;
             }
 
@@ -46,7 +44,7 @@ namespace NetGrab
             if (!catalogs.ContainsKey(group))
             {
                 catalogs.Add(group, 0);
-                Directory.CreateDirectory(savePath + group);
+                Directory.CreateDirectory(Path.Combine(downloadPathBase, group));
             }
 
             catalogs[group]++;
@@ -55,9 +53,9 @@ namespace NetGrab
 
             if (matches.Count == 0)
             {
-                logger.Add(task.ThreadId.ToString("D2") + " -> " + task.Suffix + " -> NO MATCHES");
+                //logger.Add(task.Loader.ToString("D2") + " -> " + task.Suffix + " -> NO MATCHES");
 
-                taskHost.RaiseNextJob(task.ThreadId);
+                taskHost.RaiseNextJob(task.Loader);
                 return;
             }
 
@@ -67,19 +65,19 @@ namespace NetGrab
             var ext = m.Groups["ext"].Value;
 
             name = name.Substring(0, Math.Min(name.Length, 60));
-            var fileName = string.Format("{0}{1}\\{2}_{3}.{4}", savePath, group, task.Suffix, name, ext);
+            var fileName = string.Format("{0}\\{1}_{2}.{3}", Path.Combine(downloadPathBase, group), task.Suffix, name, ext);
 
             SaveFileAsync(url, fileName, FileDownloaded);
         }
 
         private void FileDownloaded(int fileLength, Exception error)
         {
-            if (error != null)
-                logger.Add(task.ThreadId.ToString("D2") + " -> " + task.Suffix + " -> FILE2 -> EXCEPTION : " + error.Message);
-            else
-                logger.Add(task.ThreadId.ToString("D2") + " -> " + task.Suffix + " -> OK : " + fileLength + "b");
+            //if (error != null)
+                //logger.Add(task.Loader.ToString("D2") + " -> " + task.Suffix + " -> FILE2 -> EXCEPTION : " + error.Message);
+            //else
+                //logger.Add(task.Loader.ToString("D2") + " -> " + task.Suffix + " -> OK : " + fileLength + "b");
 
-            taskHost.RaiseNextJob(task.ThreadId);
+            taskHost.RaiseNextJob(task.Loader);
         }
     }
 }

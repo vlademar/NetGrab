@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <TextBox Name="tbStartName" Width="60" Margin="2">1000</TextBox>
-        <Button Grid.Column="1" Name="btnGo"  Width="120" Margin="2" HorizontalAlignment="Left" Click="Button_Click">GO</Button>
+        <Button Grid.Column="1" Name="btnGo"  Width="120" Margin="2" HorizontalAlignment="Left">GO</Button>
         <ListBox Grid.Row="1" Grid.ColumnSpan="2" Name="lbLog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2"/>
     </Grid>
 </Window>

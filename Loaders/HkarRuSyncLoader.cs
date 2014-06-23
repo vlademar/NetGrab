@@ -10,10 +10,9 @@ namespace NetGrab
         private const string staticUrlPart = "http://hkar.ru/";
         private Regex searchRegex = new Regex("\\<a\\s+href\\=\"(?<url>http\\://\\w+.hostingkartinok.com/uploads/images/\\d+/\\d+/\\w+\\.\\w+)\"\\s+class\\=\"lightbox\"\\s+title\\=\"(?<name>[\\w\\-_]+\\.\\w+)\\s+");
 
-        public override void OnInit()
+        public override ILoader New()
         {
-            if (!Directory.Exists(".\\downloads\\"))
-                Directory.CreateDirectory(".\\downloads\\");
+            return new HkarRuSyncLoader();
         }
 
         public override void DoWork(Task task)
@@ -27,7 +26,7 @@ namespace NetGrab
 
                 if (matches.Count == 0)
                 {
-                    taskHost.RaiseNextJob(task.ThreadId);
+                    taskHost.RaiseNextJob(task.Loader);
                     return;
                 }
 
@@ -45,7 +44,7 @@ namespace NetGrab
             }
             catch (WebException) { }
 
-            taskHost.RaiseNextJob(task.ThreadId);
+            taskHost.RaiseNextJob(task.Loader);
         }
     }
 }

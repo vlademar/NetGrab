@@ -2,7 +2,6 @@ namespace NetGrab
 {
     interface ITaskHost
     {
-        void ReportProgress(int threadId, string progress);
-        void RaiseNextJob(int threadId);
+        void RaiseNextJob(ILoader loader);
     }
 }

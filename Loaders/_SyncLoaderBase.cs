@@ -20,6 +20,7 @@ namespace NetGrab
         private byte[] buffer = new byte[bufferSize];
         int length ;
 
+        protected string downloadPathBase;
 
         protected string LoadTextFile(string url, out string actualUrl)
         {
@@ -88,10 +89,17 @@ namespace NetGrab
             return length;
         }
 
-        public void Init(ITaskHost _taskHost, ILogger _logger)
+        public abstract ILoader New();
+
+        public void Init(ITaskHost _taskHost, ILogger _logger, string _downloadPathBase)
         {
             taskHost = _taskHost;
             logger = _logger;
+            downloadPathBase = _downloadPathBase;
+
+            if (!Directory.Exists(downloadPathBase))
+                Directory.CreateDirectory(downloadPathBase);
+
             OnInit();
         }
 

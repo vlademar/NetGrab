@@ -36,6 +36,8 @@ namespace NetGrab
         protected ITaskHost taskHost;
         protected ILogger logger;
 
+        protected string downloadPathBase;
+
         private const int bufferSize = 128 * 1024;
         private byte[] buffer = new byte[bufferSize];
         int length;
@@ -214,10 +216,17 @@ namespace NetGrab
         }
 
 
-        public void Init(ITaskHost _taskHost, ILogger _logger)
+        public abstract ILoader New();
+
+        public void Init(ITaskHost _taskHost, ILogger _logger, string _downloadPathBase)
         {
             taskHost = _taskHost;
             logger = _logger;
+            downloadPathBase = _downloadPathBase;
+
+            if (!Directory.Exists(downloadPathBase))
+                Directory.CreateDirectory(downloadPathBase);
+
             OnInit();
         }
 
