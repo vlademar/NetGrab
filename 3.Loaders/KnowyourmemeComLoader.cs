@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace NetGrab
 {
-    class KnowyourmemeComSyncLoader : AsyncLoaderBase
+    class KnowyourmemeComSyncLoader : LoaderBase
     {
         private const string staticUrlPart = "http://knowyourmeme.com/photos/";
         private static readonly SortedList<string, int> catalogs = new SortedList<string, int>();

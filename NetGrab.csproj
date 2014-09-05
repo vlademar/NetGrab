@@ -61,19 +61,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="2.Base\AsyncLoaderModes.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Host.cs" />
-    <Compile Include="Loaders\_ILoader.cs" />
-    <Compile Include="ITaskHost.cs" />
-    <Compile Include="Loaders\_AsyncLoaderBase.cs" />
-    <Compile Include="Loaders\_SyncLoaderBase.cs" />
-    <Compile Include="Loaders\HkarRuSyncLoader.cs" />
-    <Compile Include="Loaders\KnowyourmemeComLoader.cs" />
+    <Compile Include="1.Interfaces\ITaskGroup.cs" />
+    <Compile Include="1.Interfaces\LoaderState.cs" />
+    <Compile Include="1.Interfaces\ILoader.cs" />
+    <Compile Include="1.Interfaces\ITaskHost.cs" />
+    <Compile Include="2.Base\TaskHost.cs" />
+    <Compile Include="2.Base\LoaderBase.cs" />
+    <Compile Include="2.Base\AsyncLoaderHelper.cs" />
+    <Compile Include="0.Obsolete\_SyncLoaderBase.cs" />
+    <Compile Include="0.Obsolete\HkarRuSyncLoader.cs" />
+    <Compile Include="3.Loaders\KnowyourmemeComLoader.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="NameGen.cs" />
+    <Compile Include="2.Base\NameGen.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
