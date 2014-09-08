@@ -31,6 +31,7 @@ namespace NetGrab
         }
 
         public int Id { get { return id; } }
+        public string CurrentSuffix { get { return IdToName(id); } }
 
         public void Init(string startName)
         {

@@ -25,13 +25,7 @@ namespace NetGrab
             }
         }
 
-        public bool Working { get; private set; }
         private IAsyncLoaderHelperMode mode;
-
-        public AsyncLoaderHelper()
-        {
-            Working = false;
-        }
 
         public void LoadStringAsync(string url, WebProxy proxy, LoadStringCompleteCallback callback)
         {
@@ -46,48 +40,35 @@ namespace NetGrab
 
         private void LoadStreamAsyncInternal(string url, WebProxy proxy)
         {
-            if (Working)
-            {
-                OnFail(new InvalidOperationException("Есть активная загрузка"));
-                return;
-            }
+            var uri = new Uri(url);
 
-            Working = true;
+            var request = (HttpWebRequest)WebRequest.CreateDefault(uri);
+
+            request.Accept = @"text/html, application/xhtml+xml, */*";
+            request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
+            request.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
+
+            if (proxy != null)
+                request.Proxy = proxy;
+
+            var requestState = new RequestState { request = request };
 
             try
             {
-                var uri = new Uri(url);
-
-                var request = (HttpWebRequest)WebRequest.CreateDefault(uri);
-
-                request.Accept = @"text/html, application/xhtml+xml, */*";
-                request.Headers[HttpRequestHeader.AcceptEncoding] = "gzip, deflate";
-                request.Headers[HttpRequestHeader.AcceptLanguage] = "ru-RU";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
-
-                if (proxy != null)
-                    request.Proxy = proxy;
-
-                var requestState = new RequestState
-                {
-                    request = request
-                };
-
                 request.BeginGetResponse(LoadStreamGetResponse, requestState);
-
             }
             catch (Exception e)
             {
-                OnFail(e);
+                OnFail(requestState, e);
             }
         }
         private void LoadStreamGetResponse(IAsyncResult ar)
         {
+            var requestState = (RequestState)ar.AsyncState;
 
             try
             {
-                var requestState = (RequestState)ar.AsyncState;
-
                 requestState.response = (HttpWebResponse)requestState.request.EndGetResponse(ar);
                 requestState.streamResponse = requestState.response.GetResponseStream();
                 requestState.resultStream = new MemoryStream();
@@ -95,8 +76,7 @@ namespace NetGrab
             }
             catch (Exception e)
             {
-                OnFail(e);
-                Working = false;
+                OnFail(requestState, e);
             }
         }
         private void LoadStreamEndInternal(IAsyncResult ar)
@@ -115,7 +95,6 @@ namespace NetGrab
             state.resultStream.Position = 0;
 
             mode.OnSuccess(state);
-            Working = false;
 
             state.streamResponse.Close();
             state.response.Close();
@@ -123,9 +102,17 @@ namespace NetGrab
             state.resultStream.Close();
         }
 
-        private void OnFail(Exception e)
+        private void OnFail(RequestState state, Exception e)
         {
-            Working = false;
+            if (state.streamResponse != null)
+                state.streamResponse.Close();
+
+            if (state.response != null)
+                state.response.Close();
+
+            if (state.resultStream != null)
+                state.resultStream.Close();
+
             mode.OnFail(e);
         }
     }

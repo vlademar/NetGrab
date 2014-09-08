@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
+﻿using System.Windows;
 
 namespace NetGrab
 {
-    class Task
-    {
-        public ILoader Loader { get; set; }
-        public string Suffix { get; set; }
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -25,6 +12,23 @@ namespace NetGrab
             InitializeComponent();
         }
 
-        
+
+        private void BtnGo_OnClick(object sender, RoutedEventArgs e)
+        {
+            var host = new TaskHost()
+            {
+                Logger = new Logger("./log.txt"),
+                Proxy = null
+            };
+
+            var task = new KnowyourmemeComLoaderTaskGroup
+            {
+                StartSuffix = "100"
+            };
+
+            host.AddTask(task, 10);
+
+            host.Run();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace NetGrab
 {
@@ -8,16 +9,12 @@ namespace NetGrab
 
         LoaderState State { get; }
         ITaskHost TaskHost { get; set; }
-        ITaskGroup TaskGroup { get; set; }
+        IWebProxy Proxy { get; set; }
+        ILoaderTaskGroup LoaderTaskGroup { get; set; }
         ILogger Logger { get; set; }
         bool HasNextTask { get; }
+        int LoaderId { get; }
 
         void RunNext();
-        ILoader Clone();
-    }
-
-    internal interface ILoader<T> : ILoader where T : ILoader<T>
-    {
-        ILoaderInitializer<T> Initializer { get; set; }
     }
 }

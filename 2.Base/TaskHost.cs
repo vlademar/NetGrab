@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
 
-namespace NetGrab.Interfaces
+namespace NetGrab
 {
     class TaskHost : ITaskHost
     {
-        private bool running = false;
+        public bool Running { get; private set; }
+        public ILogger Logger { get; set; }
+        public IWebProxy Proxy { get; set; }
 
         public ObservableCollection<ILoader> Loaders { get; private set; }
 
@@ -17,40 +20,45 @@ namespace NetGrab.Interfaces
 
         public void Run()
         {
-            running = true;
-            foreach (var loader in Loaders)
-                if (loader.State == LoaderState.Idle)
-                    loader.Run();
+            Running = true;
+            var idleLoaders = Loaders.Where(l => l.State == LoaderState.Idle || l.State == LoaderState.Finished);
+            foreach (var loader in idleLoaders)
+                if (loader.HasNextTask)
+                    loader.RunNext();
         }
 
         public void Stop()
         {
-            running = false;
+            Running = false;
         }
 
-        public void AddTask(ILoader loaderPrototype, int parallelCount)
+        public void AddTask(ILoaderTaskGroup task, int parallelCount)
         {
-            for (int i = 0; i < parallelCount; i++)
+            for (var i = 0; i < parallelCount; i++)
             {
-                var newLoader = loaderPrototype.Clone();
+                var newLoader = task.NewTaskLoader(this, Proxy, Logger);
                 newLoader.Finished += LoaderFinished;
                 Loaders.Add(newLoader);
-                if (running)
-                    newLoader.Run();
+                if (Running)
+                    newLoader.RunNext();
             }
         }
 
         private void LoaderFinished(object sender, EventArgs eventArgs)
         {
             var loader = (ILoader)sender;
-            if (!running || !loader.HasNextTask)
+            if (!Running || !loader.HasNextTask)
             {
                 Loaders.Remove(loader);
                 return;
             }
 
-            Loaders.Move(Loaders.IndexOf(loader), Loaders.Count - 1);
-            loader.Run();
+            lock (this)
+            {
+                Loaders.Move(Loaders.IndexOf(loader), Loaders.Count - 1);
+            }
+
+            loader.RunNext();
         }
     }
 }

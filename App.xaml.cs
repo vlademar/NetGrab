@@ -16,34 +16,6 @@ namespace NetGrab
     /// </summary>
     public partial class App : Application
     {
-        private NotifyIcon notifyIcon;
-        private Host host;
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            notifyIcon = new NotifyIcon
-            {
-                ContextMenu = new ContextMenu(new[]
-                {
-                    new MenuItem("Exit", (sender, args) => Shutdown())
-                }),
-                Icon = NetGrab.Properties.Resources.tray,
-                Visible = true
-            };
-
-            host = new Host();
-
-            host.Run();
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            notifyIcon.Visible = false;
-            host.Stop();
-
-            base.OnExit(e);
-        }
     }
 }

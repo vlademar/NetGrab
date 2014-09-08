@@ -62,12 +62,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="2.Base\AsyncLoaderModes.cs" />
+    <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoaderTaskGroup.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Host.cs" />
-    <Compile Include="1.Interfaces\ITaskGroup.cs" />
+    <Compile Include="1.Interfaces\ILoaderTaskGroup.cs" />
     <Compile Include="1.Interfaces\LoaderState.cs" />
     <Compile Include="1.Interfaces\ILoader.cs" />
     <Compile Include="1.Interfaces\ITaskHost.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="2.Base\AsyncLoaderHelper.cs" />
     <Compile Include="0.Obsolete\_SyncLoaderBase.cs" />
     <Compile Include="0.Obsolete\HkarRuSyncLoader.cs" />
-    <Compile Include="3.Loaders\KnowyourmemeComLoader.cs" />
+    <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoader.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="2.Base\NameGen.cs" />
     <Compile Include="MainWindow.xaml.cs">
