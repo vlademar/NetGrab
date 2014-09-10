@@ -1,6 +1,5 @@
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.pdb
-c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.csprojResolveAssemblyReference.cache
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\MainWindow.baml
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\MainWindow.g.cs
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\App.g.cs
@@ -11,3 +10,5 @@ c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.csproj.Gener
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.exe
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.pdb
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.config
+C:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.CodeAnalysisLog.xml
+C:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.lastcodeanalysissucceeded

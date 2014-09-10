@@ -4,7 +4,7 @@ namespace NetGrab
 {
     interface ILoaderTaskGroup
     {
-        ILoader NewTaskLoader(ITaskHost taskHost, IWebProxy proxy, ILogger logger);
+        ILoader NewTaskLoader(ITaskHost taskHost, WebProxy proxy, ILogger logger);
         bool HasNextTask { get; }
         void ReinitLoader(ILoader loader);
     }

@@ -26,20 +26,29 @@ namespace NetGrab
         }
 
         private IAsyncLoaderHelperMode mode;
+        public bool IsRunning { get; private set; }
 
         public void LoadStringAsync(string url, WebProxy proxy, LoadStringCompleteCallback callback)
         {
+            if (IsRunning)
+                throw new Exception("IsRunning");
+
             mode = new IAsyncLoaderHelperLoadString(callback);
             LoadStreamAsyncInternal(url, proxy);
         }
         public void SaveFileAsync(string url, string path, WebProxy proxy, SaveFileCompleteCallback callback)
         {
+            if (IsRunning)
+                throw new Exception("IsRunning");
+
             mode = new IAsyncLoaderHelperSaveFile(path, callback);
             LoadStreamAsyncInternal(url, proxy);
         }
 
         private void LoadStreamAsyncInternal(string url, WebProxy proxy)
         {
+            IsRunning = true;
+
             var uri = new Uri(url);
 
             var request = (HttpWebRequest)WebRequest.CreateDefault(uri);
@@ -93,7 +102,7 @@ namespace NetGrab
             }
 
             state.resultStream.Position = 0;
-
+            IsRunning = false;
             mode.OnSuccess(state);
 
             state.streamResponse.Close();
@@ -104,6 +113,8 @@ namespace NetGrab
 
         private void OnFail(RequestState state, Exception e)
         {
+            IsRunning = false;
+
             if (state.streamResponse != null)
                 state.streamResponse.Close();
 

@@ -9,7 +9,7 @@ namespace NetGrab
 
         LoaderState State { get; }
         ITaskHost TaskHost { get; set; }
-        IWebProxy Proxy { get; set; }
+        WebProxy Proxy { get; set; }
         ILoaderTaskGroup LoaderTaskGroup { get; set; }
         ILogger Logger { get; set; }
         bool HasNextTask { get; }

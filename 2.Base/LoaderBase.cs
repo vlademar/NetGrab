@@ -14,13 +14,13 @@ namespace NetGrab
             return NextFreeId++;
         }
 
-        protected static readonly AsyncLoaderHelper AsyncLoaderHelper = new AsyncLoaderHelper();
+        protected readonly AsyncLoaderHelper AsyncLoaderHelper = new AsyncLoaderHelper();
 
         private int id = GetId();
 
         public event EventHandler Finished;
         public ITaskHost TaskHost { get; set; }
-        public IWebProxy Proxy { get; set; }
+        public WebProxy Proxy { get; set; }
         public ILoaderTaskGroup LoaderTaskGroup { get; set; }
         public ILogger Logger { get; set; }
         public LoaderState State { get; protected set; }

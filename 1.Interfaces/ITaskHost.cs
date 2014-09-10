@@ -4,6 +4,6 @@ namespace NetGrab
 {
     interface ITaskHost
     {
-        IWebProxy Proxy { get; set; }
+        WebProxy Proxy { get; set; }
     }
 }

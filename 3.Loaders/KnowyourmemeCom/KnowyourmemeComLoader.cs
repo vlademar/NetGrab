@@ -10,7 +10,7 @@ namespace NetGrab
     {
         private const string staticUrlPart = "http://knowyourmeme.com/photos/";
         private static readonly SortedList<string, int> catalogs = new SortedList<string, int>();
-        private static readonly Regex searchRegex = new Regex("(?<url>http\\://i\\d{1}\\.kym-cdn\\.com/photos/images/original/\\d{3}/\\d{3}/\\d{3}/(?<name>[\\-\\w]+)\\.(?<ext>\\w+))");
+        private static readonly Regex searchRegex = new Regex("(?<url>http\\://i\\d{1}\\.kym-cdn\\.com/photos/images/original/\\d{3}/\\d{3}/\\d{3}/(?<name>[\\-\\w\\.]+)\\.(?<ext>\\w+))");
 
         public ILogger Logger { get; set; }
         public string DownloadPathBase { get; set; }
@@ -18,14 +18,14 @@ namespace NetGrab
 
         protected override void DoWork()
         {
-            AsyncLoaderHelper.LoadStringAsync(staticUrlPart + TaskUrlSuffix, null, TitlePageDownloaded);
+            AsyncLoaderHelper.LoadStringAsync(staticUrlPart + TaskUrlSuffix, Proxy, TitlePageDownloaded);
         }
 
         private void TitlePageDownloaded(string s, string outUrl, Exception error)
         {
             if (error != null)
             {
-                Logger.Add(LoaderId.ToString("D4") + " -> " + TaskUrlSuffix + " -> FILE1 -> EXCEPTION : " + error.Message);
+                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> FILE1 -> EXCEPTION : " + error.Message);
                 OnFinished();
                 return;
             }
@@ -47,7 +47,7 @@ namespace NetGrab
 
             if (matches.Count == 0)
             {
-                Logger.Add(LoaderId.ToString("D4") + " -> " + TaskUrlSuffix + " -> NO MATCHES");
+                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> NO MATCHES");
                 OnFinished();
                 return;
             }
@@ -60,7 +60,7 @@ namespace NetGrab
             name = name.Substring(0, Math.Min(name.Length, 60));
             var fileName = string.Format(@"{0}\{1}_{2}.{3}", Path.Combine(DownloadPathBase, group), TaskUrlSuffix, name, ext);
 
-            AsyncLoaderHelper.SaveFileAsync(url, fileName, null, FileDownloaded);
+            AsyncLoaderHelper.SaveFileAsync(url, fileName, Proxy, FileDownloaded);
         }
 
         private void FileDownloaded(int fileLength, Exception error)

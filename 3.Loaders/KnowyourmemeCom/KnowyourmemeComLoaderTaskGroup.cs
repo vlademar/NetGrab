@@ -12,14 +12,14 @@ namespace NetGrab
         private static readonly string DownloadSubdir = "Knowyourmeme";
 
         private readonly string downloadPathBase = Path.Combine(Properties.Settings.Default.DownloadPath, DownloadSubdir);
-        private readonly NameGenAZ09 nameGen = new NameGenAZ09();
+        private readonly INameGen nameGen = new NameGen09();
 
         public string StartSuffix { set { nameGen.Init(value); } }
         public string CurrentSuffix { get { return nameGen.CurrentSuffix; } }
 
         public bool HasNextTask { get { return true; } }
 
-        public ILoader NewTaskLoader(ITaskHost taskHost, IWebProxy proxy, ILogger logger)
+        public ILoader NewTaskLoader(ITaskHost taskHost, WebProxy proxy, ILogger logger)
         {
             return new KnowyourmemeComLoader
             {

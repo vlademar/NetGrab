@@ -9,7 +9,7 @@ namespace NetGrab
     {
         public bool Running { get; private set; }
         public ILogger Logger { get; set; }
-        public IWebProxy Proxy { get; set; }
+        public WebProxy Proxy { get; set; }
 
         public ObservableCollection<ILoader> Loaders { get; private set; }
 

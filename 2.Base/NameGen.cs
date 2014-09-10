@@ -8,6 +8,7 @@ namespace NetGrab
         int Id { get; }
         void Init(string startName);
         string NextName();
+        string CurrentSuffix { get; }
     }
 
     abstract class NameGenAlphabetic : INameGen
