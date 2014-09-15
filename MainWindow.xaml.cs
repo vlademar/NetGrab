@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NetGrab
 {
@@ -8,30 +7,23 @@ namespace NetGrab
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        public ITaskHost TaskHost { get; private set; }
+
+        public MainWindow(ITaskHost taskHost)
         {
+            TaskHost = taskHost;
             InitializeComponent();
         }
 
-
         private void BtnGo_OnClick(object sender, RoutedEventArgs e)
         {
-            var host = new TaskHost
-            {
-                Logger = new Logger("./log.txt"),
-                Proxy = WebProxy.GetDefaultProxy()
-            };
-
-            host.Proxy.Credentials = new NetworkCredential("marchenko.v", "vLADEMAR1543");
-
             var task = new KnowyourmemeComLoaderTaskGroup
             {
-                StartSuffix = "1380"
+                StartSuffix = TextBox.Text
             };
 
-            host.AddTask(task, 10);
-
-            host.Run();
+            TaskHost.AddTask(task, 32);
+            TaskHost.Run();
         }
     }
 }

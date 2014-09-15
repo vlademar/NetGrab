@@ -3,6 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="430" Width="351">
     <Grid Margin="5">
-        <Button Name="btnGo"  Width="120" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BtnGo_OnClick">GO</Button>
+        <StackPanel VerticalAlignment="Center">
+            <TextBox Name="TextBox" Width="120"/>
+            <Button Name="btnGo"  Width="120" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BtnGo_OnClick">GO</Button>
+        </StackPanel>
     </Grid>
 </Window>

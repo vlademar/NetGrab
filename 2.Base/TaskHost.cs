@@ -5,13 +5,25 @@ using System.Net;
 
 namespace NetGrab
 {
-    class TaskHost : ITaskHost
+    class TaskHost : NotifyingObject, ITaskHost
     {
-        public bool Running { get; private set; }
+        private bool _running;
+        private ObservableCollection<ILoader> _loaders;
+
         public ILogger Logger { get; set; }
         public WebProxy Proxy { get; set; }
 
-        public ObservableCollection<ILoader> Loaders { get; private set; }
+        public bool Running
+        {
+            get { return _running; }
+            private set { SetValue(ref _running, value, "Running"); }
+        }
+
+        public ObservableCollection<ILoader> Loaders
+        {
+            get { return _loaders; }
+            private set { SetValue(ref _loaders, value, "Loaders"); }
+        }
 
         public TaskHost()
         {

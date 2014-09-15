@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net;
 
 namespace NetGrab
 {
-    interface ILoader
+    public interface ILoader : INotifyPropertyChanged
     {
         event EventHandler Finished;
 
@@ -14,6 +15,7 @@ namespace NetGrab
         ILogger Logger { get; set; }
         bool HasNextTask { get; }
         int LoaderId { get; }
+        string Description { get; }
 
         void RunNext();
     }

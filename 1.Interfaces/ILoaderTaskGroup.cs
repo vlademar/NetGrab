@@ -2,7 +2,7 @@
 
 namespace NetGrab
 {
-    interface ILoaderTaskGroup
+    public interface ILoaderTaskGroup
     {
         ILoader NewTaskLoader(ITaskHost taskHost, WebProxy proxy, ILogger logger);
         bool HasNextTask { get; }

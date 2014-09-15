@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NetGrab
+﻿namespace NetGrab
 {
-    enum LoaderState
+    public enum LoaderState
     {
         Idle = 0,
         Loading = 1,
-        Finished = 2
+        Finished = 2,
+        Error = 3
     }
 }

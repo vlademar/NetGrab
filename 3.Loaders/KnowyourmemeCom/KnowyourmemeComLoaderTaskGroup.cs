@@ -9,7 +9,7 @@ namespace NetGrab
 {
     class KnowyourmemeComLoaderTaskGroup : ILoaderTaskGroup
     {
-        private static readonly string DownloadSubdir = "Knowyourmeme";
+        private const string DownloadSubdir = "Knowyourmeme";
 
         private readonly string downloadPathBase = Path.Combine(Properties.Settings.Default.DownloadPath, DownloadSubdir);
         private readonly INameGen nameGen = new NameGen09();

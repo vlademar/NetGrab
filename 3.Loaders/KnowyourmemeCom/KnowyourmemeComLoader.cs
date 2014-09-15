@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace NetGrab
@@ -12,21 +11,20 @@ namespace NetGrab
         private static readonly SortedList<string, int> catalogs = new SortedList<string, int>();
         private static readonly Regex searchRegex = new Regex("(?<url>http\\://i\\d{1}\\.kym-cdn\\.com/photos/images/original/\\d{3}/\\d{3}/\\d{3}/(?<name>[\\-\\w\\.]+)\\.(?<ext>\\w+))");
 
-        public ILogger Logger { get; set; }
         public string DownloadPathBase { get; set; }
         public string TaskUrlSuffix { get; set; }
 
         protected override void DoWork()
         {
             AsyncLoaderHelper.LoadStringAsync(staticUrlPart + TaskUrlSuffix, Proxy, TitlePageDownloaded);
+            Description = "KnowYourMeme : " + TaskUrlSuffix;
         }
 
-        private void TitlePageDownloaded(string s, string outUrl, Exception error)
+        private void TitlePageDownloaded(string s, string outUrl, Exception e)
         {
-            if (error != null)
+            if (e != null)
             {
-                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> FILE1 -> EXCEPTION : " + error.Message);
-                OnFinished();
+                OnError("Error #1 : {0}", e.Message);
                 return;
             }
 
@@ -47,8 +45,7 @@ namespace NetGrab
 
             if (matches.Count == 0)
             {
-                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> NO MATCHES");
-                OnFinished();
+                OnError("Error #1 : NO MATCHES");
                 return;
             }
 
@@ -63,14 +60,17 @@ namespace NetGrab
             AsyncLoaderHelper.SaveFileAsync(url, fileName, Proxy, FileDownloaded);
         }
 
-        private void FileDownloaded(int fileLength, Exception error)
+        private void FileDownloaded(int fileLength, Exception e)
         {
-            if (error != null)
-                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> FILE2 -> EXCEPTION : " + error.Message);
+            if (e != null)
+                OnError("Error #2 : {0}", e.Message);
             else
-                Logger.Add(LoaderId.ToString("D2") + " -> " + TaskUrlSuffix + " -> OK : " + fileLength + "b");
+                OnFinished("{0}b", fileLength);
+        }
 
-            OnFinished();
+        public override string ToString()
+        {
+            return string.Format("KnowYourMeme : {0}", TaskUrlSuffix);
         }
     }
 }

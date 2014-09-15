@@ -1,41 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Threading;
 
 namespace NetGrab
 {
-    internal interface ILogger
+    public interface ILogger
     {
-        void Add(string message);
+        void Add(string message, bool forceWrite = false);
     }
 
     class Logger : ILogger
     {
         private const int maxCoutn = 10;
 
-        private Dispatcher dispatcher;
-        private StreamWriter stream;
+        private readonly Dispatcher dispatcher;
+        private readonly StreamWriter stream;
         private int count;
 
-        private delegate void AddThreadSafeDelegate(string message);
+        private delegate void AddThreadSafeDelegate(string message, bool forceWrite);
 
 
         public Logger(string logFile)
         {
             stream = new StreamWriter(logFile, false, Encoding.Default);
-
             dispatcher = Dispatcher.CurrentDispatcher;
         }
 
-        public void Add(string message)
+        public void Add(string message, bool forceWrite = false)
         {
-            dispatcher.Invoke(new AddThreadSafeDelegate(AddThreadSafe), message);
+            dispatcher.Invoke(new AddThreadSafeDelegate(AddThreadSafe), message, forceWrite);
         }
 
-        private void AddThreadSafe(string message)
+        private void AddThreadSafe(string message, bool forceWrite)
         {
             lock (stream)
             {
@@ -43,7 +40,7 @@ namespace NetGrab
 
                 count++;
 
-                if (count > maxCoutn)
+                if (count > maxCoutn || forceWrite)
                 {
                     count = 0;
                     stream.Flush();

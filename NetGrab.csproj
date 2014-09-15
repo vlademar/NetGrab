@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="2.Base\AsyncLoaderModes.cs" />
+    <Compile Include="2.Base\NotifyingObject.cs" />
     <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoaderTaskGroup.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -85,6 +86,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

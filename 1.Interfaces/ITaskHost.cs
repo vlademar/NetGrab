@@ -1,9 +1,14 @@
+using System.ComponentModel;
 using System.Net;
 
 namespace NetGrab
 {
-    interface ITaskHost
+    public interface ITaskHost : INotifyPropertyChanged
     {
-        WebProxy Proxy { get; set; }
+        bool Running { get; }
+
+        void AddTask(ILoaderTaskGroup task, int parallelCount);
+        void Run();
+        void Stop();
     }
 }

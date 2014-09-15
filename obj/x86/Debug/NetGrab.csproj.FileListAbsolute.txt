@@ -10,5 +10,5 @@ c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.csproj.Gener
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.exe
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.pdb
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.config
-C:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.CodeAnalysisLog.xml
-C:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.lastcodeanalysissucceeded
+C:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.csprojResolveAssemblyReference.cache
+c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\App.baml

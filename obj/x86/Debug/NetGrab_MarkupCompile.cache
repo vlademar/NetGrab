@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\
+c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\
 NetGrab
 none
 false
-CODE_ANALYSIS;DEBUG;TRACE
-C:\Users\marchenko.v\Documents\GitHub\NetGrab\App.xaml
+DEBUG;TRACE
+c:\Users\marchenko.v\Documents\GitHub\NetGrab\App.xaml
 11151548125
 
-19-1652155798
+21760723183
 14-629149121
 MainWindow.xaml;
 

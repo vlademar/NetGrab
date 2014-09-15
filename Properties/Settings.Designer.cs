@@ -25,25 +25,13 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("netgrab.log")]
+        [global::System.Configuration.DefaultSettingValueAttribute("./netgrab.log")]
         public string Log {
             get {
                 return ((string)(this["Log"]));
             }
             set {
                 this["Log"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("last.load")]
-        public string LastLoadedFile {
-            get {
-                return ((string)(this["LastLoadedFile"]));
-            }
-            set {
-                this["LastLoadedFile"] = value;
             }
         }
         
@@ -80,6 +68,42 @@ namespace NetGrab.Properties {
             }
             set {
                 this["FirstDownloadingSuffix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseProxy {
+            get {
+                return ((bool)(this["UseProxy"]));
+            }
+            set {
+                this["UseProxy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("marchenko.v")]
+        public string ProxyLogin {
+            get {
+                return ((string)(this["ProxyLogin"]));
+            }
+            set {
+                this["ProxyLogin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("vLADEMAR1543")]
+        public string ProxyPassword {
+            get {
+                return ((string)(this["ProxyPassword"]));
+            }
+            set {
+                this["ProxyPassword"] = value;
             }
         }
     }
