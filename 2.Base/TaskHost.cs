@@ -5,7 +5,7 @@ using System.Net;
 
 namespace NetGrab
 {
-    class TaskHost : NotifyingObject, ITaskHost
+    public class TaskHost : NotifyingObject, ITaskHost
     {
         private bool _running;
         private ObservableCollection<ILoader> _loaders;
@@ -27,7 +27,7 @@ namespace NetGrab
 
         public TaskHost()
         {
-            Loaders = new ObservableCollection<ILoader>();
+            Loaders = new ObservableCollectionEx<ILoader>();
         }
 
         public void Run()
@@ -60,15 +60,7 @@ namespace NetGrab
         {
             var loader = (ILoader)sender;
             if (!Running || !loader.HasNextTask)
-            {
-                Loaders.Remove(loader);
                 return;
-            }
-
-            lock (this)
-            {
-                Loaders.Move(Loaders.IndexOf(loader), Loaders.Count - 1);
-            }
 
             loader.RunNext();
         }

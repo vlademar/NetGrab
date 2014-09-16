@@ -11,9 +11,6 @@
     <Setting Name="DownloadPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">./downloads/</Value>
     </Setting>
-    <Setting Name="FirstDownloadingSuffix" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
     <Setting Name="UseProxy" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

@@ -3,7 +3,7 @@
     public enum LoaderState
     {
         Idle = 0,
-        Loading = 1,
+        Running = 1,
         Finished = 2,
         Error = 3
     }

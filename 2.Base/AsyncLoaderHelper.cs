@@ -4,7 +4,7 @@ using System.Net;
 
 namespace NetGrab
 {
-    internal partial class AsyncLoaderHelper
+    public partial class AsyncLoaderHelper
     {
         private class RequestState
         {

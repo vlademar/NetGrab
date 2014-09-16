@@ -61,18 +61,6 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public string FirstDownloadingSuffix {
-            get {
-                return ((string)(this["FirstDownloadingSuffix"]));
-            }
-            set {
-                this["FirstDownloadingSuffix"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UseProxy {
             get {

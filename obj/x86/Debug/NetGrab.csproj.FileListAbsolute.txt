@@ -12,3 +12,5 @@ c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.pdb
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\bin\Debug\NetGrab.exe.config
 C:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab.csprojResolveAssemblyReference.cache
 c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\App.baml
+c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\NetGrab_MarkupCompile.lref
+c:\Users\marchenko.v\Documents\GitHub\NetGrab\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs

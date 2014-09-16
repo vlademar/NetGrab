@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace NetGrab
 {
-    abstract class LoaderBase : NotifyingObject, ILoader
+    public abstract class LoaderBase : NotifyingObject, ILoader
     {
+        private static readonly TimeSpan NextTaskRunDelay = new TimeSpan(0, 0, 0, 2);
         private static int NextFreeId = 1;
         private static int GetId()
         {
@@ -12,6 +15,7 @@ namespace NetGrab
         }
 
         protected readonly AsyncLoaderHelper AsyncLoaderHelper = new AsyncLoaderHelper();
+        private readonly TimerManager NotifyFinishedTimer;
 
         private int id;
         private LoaderState _state;
@@ -49,12 +53,13 @@ namespace NetGrab
         protected LoaderBase()
         {
             LoaderId = GetId();
+            NotifyFinishedTimer = new TimerManager(NextTaskRunDelay, OnFinishInternal);
         }
 
         public void RunNext()
         {
             LoaderTaskGroup.ReinitLoader(this);
-            State = LoaderState.Finished;
+            State = LoaderState.Running;
             DoWork();
         }
 
@@ -68,10 +73,9 @@ namespace NetGrab
             OnError(msg);
         }
 
-
         protected void OnFinished(string message = "")
         {
-            OnFinishedInternal("OK " + message, LoaderState.Finished);
+            OnFinishedInternal(string.Format("{0} | OK {1}", this, message), LoaderState.Finished);
         }
         protected void OnFinished(string formatString, params object[] args)
         {
@@ -81,11 +85,17 @@ namespace NetGrab
 
         private void OnFinishedInternal(string message, LoaderState state)
         {
+            Description = message;
             Logger.Add(string.Format("{0:D3} | {1}", LoaderId, message));
             State = state;
+
+            NotifyFinishedTimer.Start();
+        }
+
+        private void OnFinishInternal()
+        {
             if (Finished != null)
                 Finished(this, new EventArgs());
-
         }
 
         protected abstract void DoWork();

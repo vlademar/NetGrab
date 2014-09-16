@@ -4,7 +4,7 @@ using System.IO.Compression;
 
 namespace NetGrab
 {
-    internal partial class AsyncLoaderHelper
+    public partial class AsyncLoaderHelper
     {
         public delegate void SaveFileCompleteCallback(int fileLength, Exception error);
         public delegate void LoadStringCompleteCallback(string s, string actualUrl, Exception error);

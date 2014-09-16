@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>NetGrab.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,6 +66,8 @@
     </Page>
     <Compile Include="2.Base\AsyncLoaderModes.cs" />
     <Compile Include="2.Base\NotifyingObject.cs" />
+    <Compile Include="2.Base\OC.cs" />
+    <Compile Include="2.Base\TimerManager.cs" />
     <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoaderTaskGroup.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -78,6 +83,7 @@
     <Compile Include="0.Obsolete\_SyncLoaderBase.cs" />
     <Compile Include="0.Obsolete\HkarRuSyncLoader.cs" />
     <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoader.cs" />
+    <Compile Include="DBG.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="2.Base\NameGen.cs" />
     <Compile Include="MainWindow.xaml.cs">

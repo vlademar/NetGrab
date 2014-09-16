@@ -29,8 +29,6 @@ namespace NetGrab
             }
 
             var i = outUrl.IndexOf('-', outUrl.LastIndexOf('/'));
-
-
             var group = (i == -1) ? "-" : outUrl.Substring(i + 1);
 
             if (!catalogs.ContainsKey(group))
