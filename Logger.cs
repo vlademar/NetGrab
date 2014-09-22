@@ -12,8 +12,9 @@ namespace NetGrab
         void Flush();
     }
 
-    class Logger : ILogger
+    class Logger : ILogger, IDisposable
     {
+        private readonly bool _autoFlush;
         private const int maxCoutn = 10;
 
         private readonly Dispatcher dispatcher;
@@ -22,16 +23,19 @@ namespace NetGrab
 
         private delegate void AddThreadSafeDelegate(string message, bool forceWrite);
 
-
         public Logger(string logFile)
-        {
-            stream = new StreamWriter(logFile, true, Encoding.Default);
+            : this(logFile, false) { }
 
+        public Logger(string logFile, bool autoFlush)
+        {
+            _autoFlush = autoFlush;
+            stream = new StreamWriter(logFile, true, Encoding.Default);
             stream.WriteLine("");
             stream.WriteLine("");
             stream.WriteLine("--------------------------------------------------------------------------------------------------------");
             stream.WriteLine("               " + DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss"));
             stream.WriteLine("--------------------------------------------------------------------------------------------------------");
+            stream.Flush();
 
             dispatcher = Dispatcher.CurrentDispatcher;
         }
@@ -59,13 +63,21 @@ namespace NetGrab
                 stream.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + "   " + message);
 
                 count++;
-                if (count > maxCoutn || flush)
+                if (_autoFlush || count > maxCoutn || flush)
                 {
                     count = 0;
                     stream.Flush();
                     stream.BaseStream.Flush();
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            stream.Flush();
+            stream.BaseStream.Flush();
+
+            stream.Close();
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 using NetGrab.Properties;
 using System.Windows.Forms;
 
@@ -14,6 +17,7 @@ namespace NetGrab
     {
         private TaskHost taskHost;
         private ILogger logger;
+        private ILogger faultLogger;
         private readonly NotifyIcon trayIcon;
 
         public App()
@@ -32,6 +36,7 @@ namespace NetGrab
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
             logger = new Logger(Settings.Default.Log);
+            faultLogger = new Logger(Settings.Default.FaultLog, true);
             WebProxy proxy = null;
             if (Settings.Default.UseProxy)
             {
@@ -53,7 +58,17 @@ namespace NetGrab
             taskHost = host;
             trayIcon.Visible = true;
 
-            new MainWindow(taskHost).Show();
+            if (Settings.Default.AutoResume && File.Exists(Settings.Default.LastStateFile))
+            {
+                var state = File.ReadAllText(Settings.Default.LastStateFile, Encoding.Default);
+
+                var task = new KnowyourmemeComLoaderTaskGroup();
+                task.SetState(state);
+                taskHost.AddTask(task, Settings.Default.ThreadCount);
+                taskHost.Run();
+            }
+            else
+                new MainWindow(taskHost).Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -64,9 +79,15 @@ namespace NetGrab
 
         private void OnAppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            logger.Add("AppDispatcherUnhandledException : {0}\r\n {1}", e.Exception.Message, e.Exception.StackTrace);
-            logger.Flush();
-            e.Handled = true;
+            try
+            {
+                faultLogger.Add("AppDispatcherUnhandledException : {0}\r\n {1}", e.Exception.Message, e.Exception.StackTrace);
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("FATAL ERRROR : " + ex.Message, ex);
+            }
         }
 
         private void OnMenuShowClick(object sender, EventArgs eventArgs)

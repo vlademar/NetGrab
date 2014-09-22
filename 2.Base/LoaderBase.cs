@@ -53,7 +53,7 @@ namespace NetGrab
         protected LoaderBase()
         {
             LoaderId = GetId();
-            NotifyFinishedTimer = new TimerManager(NextTaskRunDelay, OnFinishInternal);
+            NotifyFinishedTimer = new TimerManager(NextTaskRunDelay, OnFinishedInternal);
         }
 
         public void RunNext()
@@ -65,7 +65,7 @@ namespace NetGrab
 
         protected void OnError(string message)
         {
-            OnFinishedInternal(string.Format("{0} | {1}", this, message), LoaderState.Error);
+            NavigateToOnFinishedInternal(string.Format("{0} | {1}", this, message), LoaderState.Error);
         }
         protected void OnError(string formatString, params object[] args)
         {
@@ -75,7 +75,7 @@ namespace NetGrab
 
         protected void OnFinished(string message = "")
         {
-            OnFinishedInternal(string.Format("{0} | OK {1}", this, message), LoaderState.Finished);
+            NavigateToOnFinishedInternal(string.Format("{0} | OK {1}", this, message), LoaderState.Finished);
         }
         protected void OnFinished(string formatString, params object[] args)
         {
@@ -83,7 +83,7 @@ namespace NetGrab
             OnFinished(msg);
         }
 
-        private void OnFinishedInternal(string message, LoaderState state)
+        private void NavigateToOnFinishedInternal(string message, LoaderState state)
         {
             Description = message;
             Logger.Add(string.Format("{0:D3} | {1}", LoaderId, message));
@@ -92,7 +92,7 @@ namespace NetGrab
             NotifyFinishedTimer.Start();
         }
 
-        private void OnFinishInternal()
+        private void OnFinishedInternal()
         {
             if (Finished != null)
                 Finished(this, new EventArgs());

@@ -39,5 +39,17 @@ namespace NetGrab
 
             _loader.TaskUrlSuffix = nameGen.NextName();
         }
+
+        public string GetState()
+        {
+            var id = nameGen.Id - 100;
+            return id > 0 ? id.ToString() : string.Empty;
+        }
+
+        public void SetState(string state)
+        {
+            if (!string.IsNullOrWhiteSpace(state))
+                StartSuffix = state;
+        }
     }
 }

@@ -64,9 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="1.Interfaces\IStateTracker.cs" />
     <Compile Include="2.Base\AsyncLoaderModes.cs" />
     <Compile Include="2.Base\NotifyingObject.cs" />
-    <Compile Include="2.Base\OC.cs" />
+    <Compile Include="2.Base\ObservableCollectionEx.cs" />
     <Compile Include="2.Base\TimerManager.cs" />
     <Compile Include="3.Loaders\KnowyourmemeCom\KnowyourmemeComLoaderTaskGroup.cs" />
     <Compile Include="App.xaml.cs">

@@ -8,7 +8,6 @@ namespace NetGrab
 {
     public class ObservableCollectionEx<t> : ObservableCollection<t>
     {
-        // Override the event so this class can access it
         public override event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public ObservableCollectionEx(IEnumerable<t> collection) : base(collection) { }

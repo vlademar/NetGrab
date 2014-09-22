@@ -37,7 +37,7 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        [global::System.Configuration.DefaultSettingValueAttribute("32")]
         public int ThreadCount {
             get {
                 return ((int)(this["ThreadCount"]));
@@ -61,7 +61,7 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool UseProxy {
             get {
                 return ((bool)(this["UseProxy"]));
@@ -73,7 +73,7 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("marchenko.v")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ProxyLogin {
             get {
                 return ((string)(this["ProxyLogin"]));
@@ -85,13 +85,49 @@ namespace NetGrab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("vLADEMAR1543")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ProxyPassword {
             get {
                 return ((string)(this["ProxyPassword"]));
             }
             set {
                 this["ProxyPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("./netgrabFault.log")]
+        public string FaultLog {
+            get {
+                return ((string)(this["FaultLog"]));
+            }
+            set {
+                this["FaultLog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("./last.state")]
+        public string LastStateFile {
+            get {
+                return ((string)(this["LastStateFile"]));
+            }
+            set {
+                this["LastStateFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoResume {
+            get {
+                return ((bool)(this["AutoResume"]));
+            }
+            set {
+                this["AutoResume"] = value;
             }
         }
     }

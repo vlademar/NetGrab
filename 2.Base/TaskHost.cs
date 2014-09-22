@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
+using NetGrab.Properties;
 
 namespace NetGrab
 {
@@ -9,6 +12,9 @@ namespace NetGrab
     {
         private bool _running;
         private ObservableCollection<ILoader> _loaders;
+
+        private int iterationsCount = 0;
+        private static readonly object SyncLock = new object();
 
         public ILogger Logger { get; set; }
         public WebProxy Proxy { get; set; }
@@ -63,6 +69,15 @@ namespace NetGrab
                 return;
 
             loader.RunNext();
+
+            if (iterationsCount > 20)
+                lock (SyncLock)
+                {
+                    iterationsCount = 0;
+                    File.WriteAllText(Settings.Default.LastStateFile, loader.LoaderTaskGroup.GetState(), Encoding.Default);
+                }
+
+            iterationsCount++;
         }
     }
 }
