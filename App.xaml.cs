@@ -52,7 +52,8 @@ namespace NetGrab
             var host = new TaskHost
             {
                 Logger = logger,
-                Proxy = proxy
+                Proxy = proxy,
+                SpeedTest = new SpeedTest()
             };
 
             taskHost = host;

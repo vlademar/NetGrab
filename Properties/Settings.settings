@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="Log" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./netgrab.log</Value>
+      <Value Profile="(Default)">e:\NetGrab\netgrab.log</Value>
     </Setting>
     <Setting Name="ThreadCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">32</Value>
     </Setting>
     <Setting Name="DownloadPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./downloads/</Value>
+      <Value Profile="(Default)">e:\NetGrab\downloads\</Value>
     </Setting>
     <Setting Name="UseProxy" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -21,10 +21,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FaultLog" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./netgrabFault.log</Value>
+      <Value Profile="(Default)">e:\NetGrab\netgrabFault.log</Value>
     </Setting>
     <Setting Name="LastStateFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./last.state</Value>
+      <Value Profile="(Default)">e:\NetGrab\last.state</Value>
     </Setting>
     <Setting Name="AutoResume" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

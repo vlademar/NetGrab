@@ -11,6 +11,8 @@ namespace NetGrab
         readonly DispatcherTimer _dispatcherTimer;
         public Action TimeElapsed;
 
+        public bool AutoRepeat { get; set; }
+
         public TimerManager(TimeSpan timeSpan)
         {
             _dispatcherTimer = new DispatcherTimer { Interval = timeSpan };
@@ -23,11 +25,20 @@ namespace NetGrab
             TimeElapsed = timeElapsed;
         }
 
+        public TimerManager(TimeSpan timeSpan, Action timeElapsed, bool autoRepeat)
+            : this(timeSpan)
+        {
+            TimeElapsed = timeElapsed;
+            AutoRepeat = autoRepeat;
+        }
+
         void _dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (TimeElapsed != null)
                 TimeElapsed();
-            Stop();
+
+            if (!AutoRepeat)
+                Stop();
         }
 
         public void Restart()

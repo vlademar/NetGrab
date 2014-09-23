@@ -32,5 +32,7 @@
             <TextBox Name="TextBox" Width="60" Margin="2"/>
             <Button HorizontalAlignment="Right" Content="GO" Click="BtnGo_OnClick" Width="60" Margin="2"/>
         </StackPanel>
+
+        <Label Grid.Row="1" HorizontalAlignment="Left" Content="{Binding SpeedTest.Speed}"/>
     </Grid>
 </Window>

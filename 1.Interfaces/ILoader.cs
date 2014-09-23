@@ -6,7 +6,7 @@ namespace NetGrab
 {
     public interface ILoader : INotifyPropertyChanged
     {
-        event EventHandler Finished;
+        event LoaderFinishedDelegate Finished;
 
         LoaderState State { get; }
         ITaskHost TaskHost { get; set; }

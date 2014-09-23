@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Net;
-using System.Threading;
-using System.Windows.Threading;
 
 namespace NetGrab
 {
     public abstract class LoaderBase : NotifyingObject, ILoader
     {
         private static readonly TimeSpan NextTaskRunDelay = new TimeSpan(0, 0, 0, 2);
-        private static int NextFreeId = 1;
+        private static int _nextFreeId = 1;
         private static int GetId()
         {
-            return NextFreeId++;
+            return _nextFreeId++;
         }
 
         protected readonly AsyncLoaderHelper AsyncLoaderHelper = new AsyncLoaderHelper();
-        private readonly TimerManager NotifyFinishedTimer;
+        private readonly TimerManager _notifyFinishedTimer;
 
-        private int id;
+        private int _id;
         private LoaderState _state;
         private string _description;
+        private int _bytesDownloaded;
 
-        public event EventHandler Finished;
+        public event LoaderFinishedDelegate Finished;
         public ITaskHost TaskHost { get; set; }
         public WebProxy Proxy { get; set; }
         public ILoaderTaskGroup LoaderTaskGroup { get; set; }
@@ -46,14 +45,14 @@ namespace NetGrab
 
         public int LoaderId
         {
-            get { return id; }
-            private set { SetValue(ref id, value, "LoaderId"); }
+            get { return _id; }
+            private set { SetValue(ref _id, value, "LoaderId"); }
         }
 
         protected LoaderBase()
         {
             LoaderId = GetId();
-            NotifyFinishedTimer = new TimerManager(NextTaskRunDelay, OnFinishedInternal);
+            _notifyFinishedTimer = new TimerManager(NextTaskRunDelay, OnFinishedInternal);
         }
 
         public void RunNext()
@@ -73,14 +72,15 @@ namespace NetGrab
             OnError(msg);
         }
 
-        protected void OnFinished(string message = "")
+        protected void OnFinished(int bytesDownloaded, string message = "")
         {
+            _bytesDownloaded = bytesDownloaded;
             NavigateToOnFinishedInternal(string.Format("{0} | OK {1}", this, message), LoaderState.Finished);
         }
-        protected void OnFinished(string formatString, params object[] args)
+        protected void OnFinished(int bytesDownloaded, string formatString, params object[] args)
         {
             var msg = string.Format(formatString, args);
-            OnFinished(msg);
+            OnFinished(bytesDownloaded, msg);
         }
 
         private void NavigateToOnFinishedInternal(string message, LoaderState state)
@@ -89,13 +89,13 @@ namespace NetGrab
             Logger.Add(string.Format("{0:D3} | {1}", LoaderId, message));
             State = state;
 
-            NotifyFinishedTimer.Start();
+            _notifyFinishedTimer.Start();
         }
 
         private void OnFinishedInternal()
         {
             if (Finished != null)
-                Finished(this, new EventArgs());
+                Finished(this, new LoaderFinishedEventArgs(_bytesDownloaded));
         }
 
         protected abstract void DoWork();

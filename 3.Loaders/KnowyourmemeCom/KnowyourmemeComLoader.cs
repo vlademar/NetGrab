@@ -63,7 +63,7 @@ namespace NetGrab
             if (e != null)
                 OnError("Error #2 : {0}", e.Message);
             else
-                OnFinished("{0}b", fileLength);
+                OnFinished(fileLength, "{0}b", fileLength);
         }
 
         public override string ToString()

@@ -12,7 +12,8 @@ namespace NetGrab
     /// </summary>
     public partial class MainWindow : INotifyPropertyChanged
     {
-        private ITaskHost _taskHost = null;
+        private ITaskHost _taskHost;
+        private ISpeedTest _speedTest;
 
         public ITaskHost TaskHost
         {
@@ -24,11 +25,22 @@ namespace NetGrab
             }
         }
 
+        public ISpeedTest SpeedTest
+        {
+            get { return _speedTest; }
+            private set
+            {
+                _speedTest = value;
+                OnPropertyChanged("SpeedTest");
+            }
+        }
+
         public MainWindow(ITaskHost taskHost)
         {
             InitializeComponent();
             TaskHost = taskHost;
             ListView.ItemsSource = TaskHost.Loaders;
+            SpeedTest = taskHost.SpeedTest;
         }
 
         private void BtnGo_OnClick(object sender, RoutedEventArgs e)

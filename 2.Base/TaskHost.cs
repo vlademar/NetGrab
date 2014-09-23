@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,7 @@ namespace NetGrab
         private bool _running;
         private ObservableCollection<ILoader> _loaders;
 
-        private int iterationsCount = 0;
+        private int _iterationsCount;
         private static readonly object SyncLock = new object();
 
         public ILogger Logger { get; set; }
@@ -30,6 +29,8 @@ namespace NetGrab
             get { return _loaders; }
             private set { SetValue(ref _loaders, value, "Loaders"); }
         }
+
+        public ISpeedTest SpeedTest { set; get; }
 
         public TaskHost()
         {
@@ -62,22 +63,25 @@ namespace NetGrab
             }
         }
 
-        private void LoaderFinished(object sender, EventArgs eventArgs)
+        private void LoaderFinished(object sender, LoaderFinishedEventArgs e)
         {
             var loader = (ILoader)sender;
             if (!Running || !loader.HasNextTask)
                 return;
 
+            if (SpeedTest != null)
+                SpeedTest.RegisterDownload(e.BytesDownloaded);
+
             loader.RunNext();
 
-            if (iterationsCount > 20)
+            if (_iterationsCount > 20)
                 lock (SyncLock)
                 {
-                    iterationsCount = 0;
+                    _iterationsCount = 0;
                     File.WriteAllText(Settings.Default.LastStateFile, loader.LoaderTaskGroup.GetState(), Encoding.Default);
                 }
 
-            iterationsCount++;
+            _iterationsCount++;
         }
     }
 }
