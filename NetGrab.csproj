@@ -67,7 +67,7 @@
     <Compile Include="1.Interfaces\IStateTracker.cs" />
     <Compile Include="2.Base\AsyncLoaderModes.cs" />
     <Compile Include="2.Base\Events.cs" />
-    <Compile Include="1.Interfaces\ISpeedTest.cs" />
+    <Compile Include="2.Base\ISpeedTest.cs" />
     <Compile Include="2.Base\NotifyingObject.cs" />
     <Compile Include="2.Base\ObservableCollectionEx.cs" />
     <Compile Include="2.Base\SpeedTest.cs" />

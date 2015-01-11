@@ -1,0 +1,16 @@
+E:\GIT\NetGrab\bin\Release\NetGrab.exe.config
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.csprojResolveAssemblyReference.cache
+E:\GIT\NetGrab\obj\x86\Release\App.baml
+E:\GIT\NetGrab\obj\x86\Release\MainWindow.g.cs
+E:\GIT\NetGrab\obj\x86\Release\App.g.cs
+E:\GIT\NetGrab\obj\x86\Release\GeneratedInternalTypeHelper.g.cs
+E:\GIT\NetGrab\obj\x86\Release\NetGrab_MarkupCompile.cache
+E:\GIT\NetGrab\obj\x86\Release\NetGrab_MarkupCompile.lref
+E:\GIT\NetGrab\bin\Release\NetGrab.exe
+E:\GIT\NetGrab\bin\Release\NetGrab.pdb
+E:\GIT\NetGrab\obj\x86\Release\MainWindow.baml
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.g.resources
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.Properties.Resources.resources
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.csproj.GenerateResource.Cache
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.exe
+E:\GIT\NetGrab\obj\x86\Release\NetGrab.pdb
