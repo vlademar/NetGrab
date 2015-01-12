@@ -60,9 +60,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TOR\Socks5Proxy.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="TOR\Socks5Assistant.cs" />
+    <Compile Include="TOR\SocksServer.cs" />
+    <Compile Include="TOR\TcpDialog.cs" />
     <Compile Include="TOR\TcpListenerIOState.cs" />
-    <Compile Include="TOR\SocketRelay.cs" />
+    <Compile Include="TOR\HttpToSocksRelay.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

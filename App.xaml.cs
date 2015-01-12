@@ -5,8 +5,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using NetGrab.Extensions;
 using NetGrab.Properties;
 using System.Windows.Forms;
+using NetGrab.TOR;
 
 namespace NetGrab
 {
@@ -19,6 +21,8 @@ namespace NetGrab
         private ILogger logger;
         private ILogger faultLogger;
         private readonly NotifyIcon trayIcon;
+
+        private HttpToSocksRelay relay;
 
         public App()
         {
@@ -35,13 +39,28 @@ namespace NetGrab
 
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
+            relay = new HttpToSocksRelay(
+                9999,
+                new SocksServer
+                {
+                    ProxyAddress = "187.3.9.152",
+                    ProxyPort = 1849,
+                    DestinationAddress = "ya.ru",
+                    DestinationPort = 80,
+                    Login = "proxuser",
+                    Pass = "freeuse"
+                });
+
             logger = new Logger(Settings.Default.Log);
             faultLogger = new Logger(Settings.Default.FaultLog, true);
             WebProxy proxy = null;
             if (Settings.Default.UseProxy)
             {
-                proxy = WebProxy.GetDefaultProxy();
-                if (!string.IsNullOrEmpty(Settings.Default.ProxyLogin))
+                proxy = (Settings.Default.Proxy.IsNullOrEmpty())
+                    ? WebProxy.GetDefaultProxy()
+                    : new WebProxy("127.0.0.1:8888");
+
+                if (!Settings.Default.ProxyLogin.IsNullOrEmpty())
                 {
                     proxy.Credentials = new NetworkCredential(
                         Settings.Default.ProxyLogin,
